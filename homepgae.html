@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Watch & Earn | Den Tech-Savvy</title>
+  <meta name="description" content="Watch ads, collect coins, and redeem rewards. Futuristic neon UI with animated coin/confetti rewards." />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg-1: #02020a;
+      --bg-2: #05031a;
+      --accent-a: #00c6ff;
+      --accent-b: #7f00ff;
+      --gold: #ffb300;
+      --glass: rgba(255,255,255,0.06);
+      --glass-2: rgba(255,255,255,0.03);
+      --radius: 16px;
+      --maxw: 1100px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:"Poppins",system-ui,Arial;
+      background: radial-gradient(1200px 600px at 10% 20%, rgba(0,198,255,0.06), transparent 12%),
+                  radial-gradient(900px 500px at 90% 80%, rgba(127,0,255,0.06), transparent 12%),
+                  linear-gradient(180deg,var(--bg-1),var(--bg-2));
+      color:#eaf2ff;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      overflow-x:hidden;
+    }
+
+    /* layout */
+    .wrap{max-width:var(--maxw);margin:32px auto;padding:24px;display:grid;grid-template-columns:1fr;gap:24px}
+    header.hero{
+      position:relative;border-radius:20px;overflow:hidden;padding:60px 28px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01)),
+        linear-gradient(135deg, rgba(0,198,255,0.06), rgba(127,0,255,0.06));
+      box-shadow:0 10px 40px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.02);
+      display:flex;align-items:center;gap:28px;flex-wrap:wrap;
+    }
+
+    .hero::before{
+      content:"";position:absolute;inset:0;background:
+      radial-gradient(600px 200px at 15% 20%, rgba(0,198,255,0.06), transparent),
+      radial-gradient(600px 200px at 85% 80%, rgba(127,0,255,0.06), transparent);
+      pointer-events:none;
+    }
+
+    .hero-left{flex:1;min-width:260px}
+    .hero h1{
+      font-size:clamp(28px,4vw,44px);line-height:1.02;margin:0;
+      background:linear-gradient(90deg,var(--accent-a),var(--accent-b));
+      -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+      text-shadow:0 6px 30px rgba(127,0,255,0.08);
+    }
+    .hero p{color:#bfcff9; margin:12px 0 20px; max-width:60ch;font-size:1.05rem}
+    .hero .cta{display:flex;gap:12px;flex-wrap:wrap}
+
+    .btn{
+      padding:12px 20px;border-radius:12px;border:0;cursor:pointer;font-weight:700;
+      color:white;background:linear-gradient(90deg,var(--accent-a),var(--accent-b));
+      box-shadow:0 8px 30px rgba(0,198,255,0.12);
+      transition:transform .18s ease, box-shadow .18s ease;
+    }
+    .btn:hover{transform:translateY(-4px);box-shadow:0 18px 40px rgba(127,0,255,0.18)}
+    .btn.secondary{
+      background:linear-gradient(90deg,var(--gold),#ff8a00);
+      color:#000; box-shadow:0 8px 30px rgba(255,179,0,0.08)
+    }
+
+    .hero-stats{
+      display:flex;gap:12px;align-items:center;margin-top:8px;flex-wrap:wrap;
+    }
+    .stat{
+      background:var(--glass); padding:10px 14px;border-radius:12px;font-weight:600;color:#e7f7ff;
+      box-shadow:inset 0 1px 0 rgba(255,255,255,0.02);
+    }
+
+    /* dashboard / content */
+    main{display:grid;grid-template-columns:2fr 1fr;gap:24px;align-items:start}
+    .card{background:var(--glass);border-radius:14px;padding:20px;box-shadow:0 10px 30px rgba(0,0,0,0.6);}
+
+    .balance{
+      display:flex;align-items:center;justify-content:space-between;gap:12px;
+    }
+    .balance .left{min-width:0}
+    .balance h2{margin:0;color:var(--accent-a);font-size:1.1rem}
+    .balance .amount{font-size:2.2rem;font-weight:800;margin-top:6px;
+      background:linear-gradient(90deg,var(--accent-a),var(--accent-b));
+      -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+    }
+
+    .controls{display:flex;gap:12px;margin-top:16px;flex-wrap:wrap}
+    .small{font-size:0.92rem;color:#cbd8ff;opacity:0.9}
+
+    /* ad area */
+    .ad-area{margin-top:18px;border-radius:12px;overflow:hidden;background:var(--glass-2);
+      display:flex;flex-direction:column;align-items:stretch;padding:12px;border:1px solid rgba(255,255,255,0.02)}
+    .ad-area video{width:100%;height:auto;border-radius:10px;background:#000}
+    .ad-info{display:flex;align-items:center;justify-content:space-between;padding:10px 6px}
+
+    .timer{
+      font-weight:800;color:var(--gold);
+      font-size:1.05rem;background:linear-gradient(90deg,#111,transparent);
+      padding:6px 10px;border-radius:10px;
+    }
+
+    /* right column */
+    .right-col{display:flex;flex-direction:column;gap:16px}
+    .history{max-height:300px;overflow:auto;padding-right:8px}
+    .history-item{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px dashed rgba(255,255,255,0.02);color:#c3d3ff;font-size:0.95rem}
+
+    /* coin / confetti layer */
+    #coin-layer{position:fixed;left:0;top:0;width:100%;height:100%;pointer-events:none;overflow:hidden;z-index:9999}
+
+    .coin{
+      position:absolute;width:32px;height:32px;border-radius:50%;
+      background: radial-gradient(circle at 30% 30%, #fff 0%, rgba(255,255,255,0.6) 6%, transparent 7%),
+                  linear-gradient(180deg,#ffd54a,#ffb300 60%,#ff8a00);
+      box-shadow:0 6px 18px rgba(255,160,40,0.25), inset 0 -4px 10px rgba(255,200,80,0.2);
+      transform-origin:center;
+      will-change:transform,opacity;
+    }
+    .conf{
+      position:absolute;width:10px;height:10px;border-radius:2px;opacity:0.95;
+      background:linear-gradient(90deg,#ff7ad1,#7f00ff); will-change:transform,opacity;
+    }
+
+    /* footer */
+    footer{margin-top:32px;text-align:center;color:#90a0d6;font-size:0.9rem;padding-bottom:40px}
+
+    /* responsive */
+    @media (max-width:980px){
+      main{grid-template-columns:1fr;gap:18px}
+      .wrap{padding:18px}
+      .hero{padding:40px 18px}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="hero" role="banner" aria-label="Hero">
+      <div class="hero-left">
+        <h1>Watch • Earn • Redeem</h1>
+        <p>Watch short, curated ads and collect coins. Cash out securely via PayPal / M-Pesa (simulated). Premium neon UI for a futuristic rewards experience.</p>
+        <div class="cta">
+          <button id="startHero" class="btn">Enter Dashboard</button>
+          <button id="how" class="btn secondary">How it works</button>
+        </div>
+        <div class="hero-stats" aria-hidden="true">
+          <div class="stat">⏱️ 30s watch</div>
+          <div class="stat">💰 50 coins / ad</div>
+          <div class="stat">🔒 Secure (sim)</div>
+        </div>
+      </div>
+      <div style="flex:0 0 420px;min-width:260px">
+        <div style="background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); padding:18px; border-radius:14px;">
+          <div style="font-weight:700;color:#bfe9ff">Current Offer</div>
+          <div style="margin-top:8px;color:#dff5ff;font-size:0.95rem">Watch promos — get bonus coins today. Limited-time double rewards on first watch.</div>
+          <div style="margin-top:12px;display:flex;gap:8px">
+            <button id="promoWatch" class="btn">Watch Promo</button>
+            <button id="claimBonus" class="btn secondary">Claim Bonus</button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <!-- LEFT: dashboard & ad -->
+      <section class="card" aria-labelledby="balanceTitle">
+        <div class="balance">
+          <div class="left">
+            <h2 id="balanceTitle">Your Balance</h2>
+            <div class="amount" id="balanceAmount">0 Coins</div>
+            <div class="small" style="margin-top:6px">Saved locally on this device (demo). Sign in and use server storage for real apps.</div>
+          </div>
+          <div>
+            <div style="display:flex;flex-direction:column;gap:8px;align-items:flex-end">
+              <button id="watchBtn" class="btn">🎬 Watch Ad</button>
+              <button id="withdrawBtn" class="btn secondary">💵 Withdraw</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="ad-area" id="adArea" aria-live="polite" aria-atomic="true">
+          <div class="ad-info">
+            <div class="small">Now playing (demo ad)</div>
+            <div class="timer">Time left: <span id="timer">30</span>s</div>
+          </div>
+          <video id="adVideo" preload="metadata" playsinline muted poster="https://via.placeholder.com/900x506?text=Ad+Placeholder">
+            <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+            <!-- Use your ad source or replace with iframe embed for ad network -->
+            Your browser does not support the video tag.
+          </video>
+        </div>
+
+        <div style="margin-top:14px;display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+          <div class="small">Tip: Keep the video visible while watching. The platform simulates server-side validation for demo only.</div>
+        </div>
+      </section>
+
+      <!-- RIGHT: history / leaderboard -->
+      <aside class="right-col">
+        <div class="card">
+          <h3 style="margin:0 0 12px 0">Watch History</h3>
+          <div id="history" class="history">
+            <div class="small">No history yet — watch an ad to earn coins.</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3 style="margin:0 0 12px 0">Leaderboard (local)</h3>
+          <div id="leaderboard" class="history">
+            <!-- entries -->
+          </div>
+        </div>
+      </aside>
+    </main>
+
+    <footer>© 2025 Den Tech-Savvy — Demo only. For real payouts integrate server-side validation and secure payout providers.</footer>
+  </div>
+
+  <!-- coin/confetti layer -->
+  <div id="coin-layer" aria-hidden="true"></div>
+
+  <script>
+    /*******************************
+     * Watch-to-Earn — Single File
+     * - Neon theme with coin/confetti bursts
+     * - 30s timer per ad, 50 coins reward
+     * - localStorage persistence (demo)
+     *******************************/
+
+    // Config
+    const WATCH_SECONDS = 30;
+    const REWARD_COINS = 50;
+    const MIN_PAYOUT = 100;
+
+    // Elements
+    const startHero = document.getElementById('startHero');
+    const watchBtn = document.getElementById('watchBtn');
+    const withdrawBtn = document.getElementById('withdrawBtn');
+    const promoWatch = document.getElementById('promoWatch');
+    const claimBonus = document.getElementById('claimBonus');
+    const adVideo = document.getElementById('adVideo');
+    const timerEl = document.getElementById('timer');
+    const balanceAmount = document.getElementById('balanceAmount');
+    const adArea = document.getElementById('adArea');
+    const historyEl = document.getElementById('history');
+    const leaderboardEl = document.getElementById('leaderboard');
+    const coinLayer = document.getElementById('coin-layer');
+
+    // State
+    let balance = parseInt(localStorage.getItem('dts_balance') || '0', 10);
+    let history = JSON.parse(localStorage.getItem('dts_history') || '[]');
+    let leaderboard = JSON.parse(localStorage.getItem('dts_lb') || '[]');
+    let watching = false;
+    let elapsed = 0;
+    let timerInterval = null;
+    let allowSkipAfter = 5; // seconds before skip allowed (UX)
+
+    // Init UI
+    updateBalanceUI();
+    renderHistory();
+    renderLeaderboard();
+    resetTimerDisplay();
+
+    // Helper: format date/time
+    function fmtNow(){
+      return new Date().toLocaleString();
+    }
+
+    // Update balance UI
+    function updateBalanceUI(){
+      balanceAmount.textContent = `${balance} Coins`;
+      localStorage.setItem('dts_balance', String(balance));
+    }
+
+    // Reset timer UI
+    function resetTimerDisplay(){
+      timerEl.textContent = String(WATCH_SECONDS);
+    }
+
+    // Start button - scrolls to dashboard
+    startHero.addEventListener('click', () => {
+      document.querySelector('main').scrollIntoView({behavior:'smooth'});
+    });
+
+    // Watch Ad flow
+    watchBtn.addEventListener('click', () => startWatch(WATCH_SECONDS));
+
+    promoWatch.addEventListener('click', () => {
+      // promotional watch: give double coins for first time (demo)
+      startWatch(WATCH_SECONDS, { promo: true });
+    });
+
+    claimBonus.addEventListener('click', () => {
+      // demo bonus
+      const bonus = 25;
+      balance += bonus;
+      history.unshift({ ts: new Date().toISOString(), type:'bonus', amount: bonus, note: 'Promotional bonus' });
+      if(history.length>200) history.pop();
+      localStorage.setItem('dts_history', JSON.stringify(history));
+      updateBalanceUI(); renderHistory(); updateLeaderboard('You', balance);
+      burstConfetti();
+      spawnCoins(10);
+      alert(`Bonus awarded: ${bonus} coins`);
+    });
+
+    function startWatch(seconds, opts={}) {
+      if(watching) return;
+      // ensure video visible & start
+      watching = true;
+      elapsed = 0;
+      adArea.scrollIntoView({behavior:'smooth'});
+      adVideo.currentTime = 0;
+      adVideo.muted = false;
+      adVideo.play().catch(()=>{ /* autoplay may be blocked; user can press */ });
+      resetTimerDisplay();
+      timerInterval = setInterval(() => {
+        elapsed++;
+        const remaining = Math.max(0, seconds - elapsed);
+        timerEl.textContent = String(remaining);
+        // unlock skip button after allowSkipAfter (handled by browser controls)
+        if(elapsed >= seconds){
+          completeWatch(opts);
+        }
+      }, 1000);
+    }
+
+    function completeWatch(opts){
+      if(timerInterval){ clearInterval(timerInterval); timerInterval = null; }
+      watching = false;
+      // reward calculation (promo doubles reward once)
+      let reward = REWARD_COINS;
+      if(opts && opts.promo) reward = Math.floor(REWARD_COINS * 1.5);
+      balance += reward;
+      history.unshift({ ts: new Date().toISOString(), type: 'watch', amount: reward, note: opts.promo ? 'promo' : 'normal' });
+      if(history.length > 300) history.pop();
+      localStorage.setItem('dts_history', JSON.stringify(history));
+      localStorage.setItem('dts_balance', String(balance));
+      updateBalanceUI();
+      renderHistory();
+      updateLeaderboard('You', balance);
+      // visual feedback
+      spawnCoins(18);
+      burstConfetti();
+      // small toast
+      setTimeout(()=> alert(`Nice! You earned ${reward} coins.`), 200);
+    }
+
+    // Withdraw simulation
+    withdrawBtn.addEventListener('click', () => {
+      if(balance < MIN_PAYOUT){
+        alert(`Minimum withdrawal is ${MIN_PAYOUT} coins. Earn more before withdrawing.`);
+        return;
+      }
+      const requested = prompt(`Enter coins to withdraw (you have ${balance}):`, String(MIN_PAYOUT));
+      const num = parseInt(requested || '0', 10);
+      if(!num || num <= 0) return alert('Invalid amount');
+      if(num > balance) return alert('You do not have that many coins.');
+      // simulate server validation & payout
+      withdrawBtn.disabled = true;
+      withdrawBtn.textContent = 'Processing...';
+      setTimeout(()=>{
+        balance -= num;
+        localStorage.setItem('dts_balance', String(balance));
+        history.unshift({ ts: new Date().toISOString(), type:'withdraw', amount: -num, note:'Simulated payout' });
+        if(history.length > 300) history.pop();
+        localStorage.setItem('dts_history', JSON.stringify(history));
+        updateBalanceUI(); renderHistory(); updateLeaderboard('You', balance);
+        withdrawBtn.disabled = false;
+        withdrawBtn.textContent = '💵 Withdraw';
+        alert('Withdrawal simulated. To pay real funds, integrate a secure server + payout provider (M-Pesa/PayPal).');
+      }, 1400);
+    });
+
+    // History rendering
+    function renderHistory(){
+      if(!history.length){
+        historyEl.innerHTML = '<div class="small">No history yet.</div>';
+        return;
+      }
+      historyEl.innerHTML = history.slice(0,50).map(h => {
+        const time = new Date(h.ts).toLocaleString();
+        const amount = (h.amount>0?`+${h.amount}`:h.amount) + ' pts';
+        return `<div class="history-item"><div>${time}<div style="font-size:0.85rem;color:#99b8ff">${h.note||h.type}</div></div><div style="font-weight:700;color:${h.amount>0? '#b9ff9a': '#ffaaaa'}">${amount}</div></div>`;
+      }).join('');
+    }
+
+    // Leaderboard (local demo)
+    function updateLeaderboard(name, points){
+      const idx = leaderboard.findIndex(u => u.name === name);
+      if(idx >= 0) leaderboard[idx].points = points;
+      else leaderboard.push({name, points});
+      leaderboard.sort((a,b)=>b.points - a.points);
+      leaderboard = leaderboard.slice(0,5);
+      localStorage.setItem('dts_lb', JSON.stringify(leaderboard));
+      renderLeaderboard();
+    }
+    function renderLeaderboard(){
+      if(!leaderboard.length){
+        leaderboardEl.innerHTML = '<div class="small">No leaderboard data yet.</div>'; return;
+      }
+      leaderboardEl.innerHTML = leaderboard.map((u,i)=>`<div class="history-item"><div>#${i+1} ${escapeHtml(u.name)}</div><div style="font-weight:800;color:#ffd88a">${u.points} pts</div></div>`).join('');
+    }
+
+    // Utilities: safe escape
+    function escapeHtml(s){ return String(s).replace(/[&<>"']/g, (m)=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
+
+    // Visual effects: coins and confetti
+    function spawnCoins(count=20){
+      for(let i=0;i<count;i++){
+        const coin = document.createElement('div');
+        coin.className = 'coin';
+        // random start position near center top
+        const startX = window.innerWidth * 0.5 + (Math.random()*300 - 150);
+        const startY = 120 + Math.random()*80;
+        coin.style.left = `${startX}px`;
+        coin.style.top = `${startY}px`;
+        coin.style.transform = `translateY(0)`;
+        coin.style.opacity = '1';
+        const rotate = (Math.random()*720) + 'deg';
+        const duration = 1200 + Math.random()*900;
+        coinLayer.appendChild(coin);
+        // animate using requestAnimationFrame + CSS transitions
+        coin.animate([
+          { transform: `translateY(0) rotate(0deg)`, opacity:1 },
+          { transform: `translateY(${600 + Math.random()*200}px) rotate(${rotate})`, opacity:0 }
+        ], { duration: duration, easing: 'cubic-bezier(.25,.9,.25,1)' });
+        setTimeout(()=> coin.remove(), duration + 50);
+      }
+    }
+
+    // Confetti burst
+    function burstConfetti(count=28){
+      for(let i=0;i<count;i++){
+        const c = document.createElement('div');
+        c.className='conf';
+        const startX = window.innerWidth*0.5 + (Math.random()*300 - 150);
+        const startY = 140 + Math.random()*40;
+        c.style.left = `${startX}px`;
+        c.style.top = `${startY}px`;
+        const dx = (Math.random()*800 - 400) * (Math.random()>0.5?1:-1);
+        const dy = - (200 + Math.random()*400);
+        const dur = 800 + Math.random()*1000;
+        c.style.background = Math.random()>0.5? 'linear-gradient(90deg,#ff7ad1,#7f00ff)' : 'linear-gradient(90deg,#ffd54a,#ff8a00)';
+        coinLayer.appendChild(c);
+        c.animate([
+          { transform: 'translateY(0) translateX(0) rotate(0deg)', opacity:1 },
+          { transform: `translateY(${dy}px) translateX(${dx}px) rotate(${Math.random()*720}deg)`, opacity:0 }
+        ], { duration: dur, easing: 'cubic-bezier(.2,.8,.2,1)' });
+        setTimeout(()=> c.remove(), dur + 60);
+      }
+    }
+
+    // Small confetti on load to greet
+    setTimeout(()=> burstConfetti(12), 700);
+
+    // Accessibility: keyboard shortcuts
+    document.addEventListener('keydown', (e)=>{
+      if(e.key === 'w' || e.key === 'W') watchBtn.click();
+      if(e.key === 'b' || e.key === 'B') startHero.click();
+    });
+
+    // Ensure leaderboard contains at least demo entries
+    if(leaderboard.length === 0){
+      leaderboard = [{name:'Alice',points:420},{name:'Bob',points:300},{name:'You',points:balance}];
+      localStorage.setItem('dts_lb', JSON.stringify(leaderboard));
+      renderLeaderboard();
+    }
+
+    // Small safety: pause timer if user navigates away
+    window.addEventListener('blur', ()=> {
+      if(watching && timerInterval){ clearInterval(timerInterval); timerInterval = null; watching=false; alert('Watch paused because window lost focus.'); resetTimerDisplay();}
+    });
+
+  </script>
+</body>
+</html>

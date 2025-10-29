@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Login — Watch & Earn</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <div style="max-width:520px;margin:80px auto;text-align:center">
+      <div class="logo" style="margin-inline:auto;font-size:18px">D</div>
+      <h2 style="margin-top:12px">Welcome to Den Tech-Savvy Rewards</h2>
+      <p style="color:var(--muted)">Sign in to start watching ads and earning coins. This demo stores data locally on your device.</p>
+
+      <div class="card" style="margin-top:18px;text-align:left">
+        <div class="form-row">
+          <label class="small">Display name</label>
+          <input id="nameInput" class="input" placeholder="Enter a name (e.g. Denwilson)" />
+        </div>
+        <div class="form-row">
+          <label class="small">Email (optional)</label>
+          <input id="emailInput" class="input" placeholder="you@example.com" />
+        </div>
+        <div style="display:flex;gap:10px;justify-content:flex-end">
+          <button id="continueBtn" class="btn">Create account</button>
+        </div>
+      </div>
+
+      <p style="color:var(--muted);margin-top:12px">Already have a local account? Just enter the same name to continue.</p>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+  <script>
+    const nameInput = document.getElementById('nameInput');
+    const emailInput = document.getElementById('emailInput');
+    const continueBtn = document.getElementById('continueBtn');
+
+    continueBtn.addEventListener('click', ()=>{
+      const name = (nameInput.value || '').trim();
+      const email = (emailInput.value || '').trim();
+      if(!name){ alert('Please enter a display name.'); nameInput.focus(); return; }
+      // set user
+      const user = { name, email, joined: new Date().toISOString() };
+      setUser(user);
+      // ensure balance & arrays exist
+      if(!localStorage.getItem('dts_balance')) localStorage.setItem('dts_balance','0');
+      if(!localStorage.getItem('dts_history')) localStorage.setItem('dts_history','[]');
+      if(!localStorage.getItem('dts_lb')) localStorage.setItem('dts_lb','[]');
+      // redirect to home
+      window.location.href = 'index.html';
+    });
+
+    // if user exists, redirect to home automatically
+    (()=>{
+      const u = getUser();
+      if(u) {
+        // still let them sign in as same or different user. (Optional auto-redirect)
+        // window.location.href = 'index.html';
+      }
+    })();
+  </script>
+</body>
+</html>

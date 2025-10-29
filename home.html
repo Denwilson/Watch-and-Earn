@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Home — Watch & Earn</title>
+
+  <!-- ✅ Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Your Custom Style -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <!-- Navbar -->
+    <!-- ✅ Bootstrap Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-transparent">
+    <div class="container-fluid">
+      <a class="navbar-brand d-flex align-items-center" href="#">
+        <div class="logo">D</div>
+        <h1 class="ms-2 mb-0">Den Tech-Savvy</h1>
+      </a>
+  
+      <!-- Hamburger Button -->
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu"
+        aria-controls="navMenu" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+  
+      <!-- Collapsible Menu -->
+      <div class="collapse navbar-collapse justify-content-end" id="navMenu">
+        <ul class="navbar-nav mb-2 mb-lg-0">
+          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="dashboard.html">Dashboard</a></li>
+          <li class="nav-item"><a class="nav-link" href="rewards.html">Rewards</a></li>
+          <li class="nav-item"><a class="nav-link" href="profile.html">Profile</a></li>
+          <li class="nav-item"><a id="logoutLink" class="nav-link" href="#">Logout</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  
+
+    <!-- Hero Section -->
+    <div class="hero card mt-4 p-4 d-flex flex-lg-row flex-column align-items-center justify-content-between">
+      <div class="mb-4 mb-lg-0">
+        <h2>Watch • Earn • Redeem</h2>
+        <p>Watch short animated ads and collect coins. Most ads are 30s (70% chance), sometimes 20s (20%) or 10s (10%). Confetti & coin bursts on reward. Local demo — no backend required.</p>
+        <div class="d-flex flex-wrap gap-2 mt-3">
+          <button id="goDashboard" class="btn">Enter Dashboard</button>
+          <button id="goRewards" class="btn secondary">View Rewards</button>
+        </div>
+      </div>
+
+      <div style="max-width:420px;">
+        <div class="p-3 rounded-3" style="background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));">
+          <div style="font-weight:700;color:var(--accent-a)">How it works</div>
+          <ul class="mt-3" style="color:var(--muted);">
+            <li>Click Watch → ad runs (random duration)</li>
+            <li>When timer ends you earn coins</li>
+            <li>Coins are saved locally and visible across pages</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Info Grid -->
+    <div class="grid mt-4">
+      <div class="card">
+        <h3 class="mt-0">Why Den Tech-Savvy Rewards?</h3>
+        <p class="small">Premium neon UX, gamified watching, and simulated payouts. Replace ad simulation with your ad network and add server-side validation to enable real payouts.</p>
+      </div>
+      <div class="card">
+        <h3 class="mt-0">Quick Stats</h3>
+        <div class="d-flex flex-column gap-2">
+          <div class="small">Default watch reward: <strong style="color:var(--gold)">50 coins</strong></div>
+          <div class="small">Minimum withdraw (sim): <strong style="color:var(--gold)">100 coins</strong></div>
+          <div class="small">Animated rewards & leaderboard</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="mt-4 text-center" style="color:var(--muted)">© 2025 Den Tech-Savvy — Demo app</footer>
+  </div>
+
+  <!-- ✅ Bootstrap JS (for responsive navbar) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- ✅ Bootstrap JS (for toggle functionality) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+
+  <script src="app.js"></script>
+  <script>
+    // Login requirement
+    if(!requireLogin('login.html')){ /* redirect done in helper */ }
+
+    document.getElementById('goDashboard').addEventListener('click', ()=> location.href = 'dashboard.html');
+    document.getElementById('goRewards').addEventListener('click', ()=> location.href = 'rewards.html');
+    document.getElementById('logoutLink').addEventListener('click', (e)=>{
+      e.preventDefault();
+      if(confirm('Logout (clear local user)?')){
+        clearUser(); window.location.href='login.html';
+      }
+    });
+  </script>
+</body>
+</html>

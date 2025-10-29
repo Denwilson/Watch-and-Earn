@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Profile — Watch & Earn</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .edit-btn {
+      background: #007bff;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: 0.3s;
+      margin-top: 10px;
+    }
+    .edit-btn:hover { background: #0056b3; }
+    input.profile-input {
+      width: 100%;
+      padding: 6px;
+      margin-top: 4px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Navigation -->
+    <div class="nav">
+      <div class="brand"><div class="logo">D</div><h1>Den Tech-Savvy</h1></div>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="rewards.html">Rewards</a>
+        <a href="profile.html" class="active">Profile</a>
+        <a id="logout" href="#">Logout</a>
+      </div>
+    </div>
+
+    <!-- Profile Card -->
+    <div class="card" style="margin-top:20px">
+      <h2>👤 User Profile</h2>
+      <div id="profileInfo" style="margin-top:10px">
+        <p>
+          <strong>Name:</strong> 
+          <span id="userName"></span>
+          <input type="text" id="editName" class="profile-input" />
+        </p>
+        <p>
+          <strong>Email:</strong> 
+          <span id="userEmail"></span>
+          <input type="email" id="editEmail" class="profile-input" />
+        </p>
+        <p><strong>Current Balance:</strong> <span id="userBalance">0 Coins</span></p>
+        <p><strong>Total Ads Watched:</strong> <span id="adsWatched">0</span></p>
+        <p><strong>Joined:</strong> <span id="joinedDate">N/A</span></p>
+
+        <button id="editProfileBtn" class="edit-btn">Edit Profile</button>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:20px">
+      <h3>📜 Watch History</h3>
+      <div id="historyList" class="history" style="max-height:300px;overflow-y:auto"></div>
+    </div>
+
+    <footer style="margin-top:18px;color:var(--muted);text-align:center">
+      © 2025 Den Tech-Savvy — Watch & Earn
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+  <script>
+    if (!requireLogin('login.html')) return;
+
+    const user = getUser();
+    const userName = document.getElementById('userName');
+    const userEmail = document.getElementById('userEmail');
+    const editName = document.getElementById('editName');
+    const editEmail = document.getElementById('editEmail');
+    const userBalance = document.getElementById('userBalance');
+    const adsWatched = document.getElementById('adsWatched');
+    const joinedDate = document.getElementById('joinedDate');
+    const historyList = document.getElementById('historyList');
+    const editBtn = document.getElementById('editProfileBtn');
+    const logout = document.getElementById('logout');
+
+    // --- Initialize display ---
+    function updateProfile() {
+      const bal = getBalance();
+      const hist = getHistory();
+      userName.textContent = user.name || 'Guest User';
+      userEmail.textContent = user.email || 'example@email.com';
+      userBalance.textContent = `${bal} Coins`;
+      adsWatched.textContent = hist.filter(x => x.type === 'watch').length;
+      joinedDate.textContent = user.joined || new Date().toLocaleDateString();
+
+      if (!hist.length) {
+        historyList.innerHTML = '<div class="small">No watch history yet.</div>';
+      } else {
+        historyList.innerHTML = hist.slice(0, 20).map(h => {
+          const time = new Date(h.ts).toLocaleString();
+          const amt = h.amount > 0 ? `+${h.amount}` : h.amount;
+          return `
+            <div class="history-item">
+              <div>${time}
+                <div style="font-size:0.85rem;color:var(--muted)">${h.note||h.type}</div>
+              </div>
+              <div style="font-weight:700;color:${h.amount>0? '#b9ff9a':'#ffaaaa'}">${amt} pts</div>
+            </div>`;
+        }).join('');
+      }
+    }
+
+    // --- Edit / Save button logic ---
+    let editMode = false;
+    editBtn.addEventListener('click', () => {
+      if (!editMode) {
+        // Enter edit mode
+        editMode = true;
+        editBtn.textContent = 'Save Changes';
+        editName.style.display = 'block';
+        editEmail.style.display = 'block';
+        editName.value = user.name || '';
+        editEmail.value = user.email || '';
+        userName.style.display = 'none';
+        userEmail.style.display = 'none';
+      } else {
+        // Save updates
+        const newName = editName.value.trim();
+        const newEmail = editEmail.value.trim();
+        if (!newName || !newEmail) return alert('Please fill in all fields.');
+
+        user.name = newName;
+        user.email = newEmail;
+        saveUser(user);
+
+        userName.textContent = newName;
+        userEmail.textContent = newEmail;
+
+        editName.style.display = 'none';
+        editEmail.style.display = 'none';
+        userName.style.display = 'inline';
+        userEmail.style.display = 'inline';
+        editBtn.textContent = 'Edit Profile';
+        editMode = false;
+      }
+    });
+
+    logout.addEventListener('click', (e) => {
+      e.preventDefault();
+      if (confirm('Logout?')) {
+        clearUser();
+        window.location.href = 'login.html';
+      }
+    });
+
+    updateProfile();
+  </script>
+</body>
+</html>

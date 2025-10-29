@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Rewards — Watch & Earn</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <!-- Navigation -->
+    <div class="nav">
+      <div class="brand"><div class="logo">D</div><h1>Den Tech-Savvy</h1></div>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="rewards.html" class="active">Rewards</a>
+        <a href="profile.html">Profile</a>
+        <a id="logout" href="#">Logout</a>
+      </div>
+    </div>
+
+    <div class="grid">
+      <!-- LEFT SECTION -->
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div>
+            <h3 style="margin:0">Rewards Center</h3>
+            <div class="small">Watch ads or redeem coins for real rewards</div>
+          </div>
+          <div style="text-align:right">
+            <div class="small">Balance</div>
+            <div id="balanceDisplay" style="font-weight:800;font-size:1.3rem;color:var(--accent-a)">0 Coins</div>
+          </div>
+        </div>
+
+        <!-- WATCH ADS AREA -->
+        <div class="ad-area" id="adArea" style="margin-top:14px">
+          <div class="ad-top">
+            <div class="small">🎥 Ad Simulation Center</div>
+            <div class="timer">⏱ Time left: <span id="timer">30</span>s</div>
+          </div>
+
+          <div class="ad-display" id="adSim" style="text-align:center; background:#111; border-radius:16px; padding:20px; position:relative; overflow:hidden;">
+            <video id="adVideo" width="100%" height="auto" poster="https://cdn-icons-png.flaticon.com/512/1149/1149168.png"
+              style="border-radius:14px; max-height:240px; display:none;"></video>
+
+            <div id="adPlaceholder" style="padding:40px 0;">
+              <img src="https://cdn-icons-png.flaticon.com/512/3039/3039389.png" width="120" height="120" style="opacity:0.9;" />
+              <h3 style="margin-top:10px;">Watch to Earn Rewards</h3>
+              <p style="color:#ccc;">Click “Watch Ad” to start playing a random sponsored video.</p>
+            </div>
+
+            <div style="margin-top:14px;">
+              <button id="watchNow" class="btn">▶ Watch Ad</button>
+              <button id="skipNow" class="btn secondary" style="margin-left:8px;">⏭ Skip</button>
+            </div>
+          </div>
+
+          <div class="progress-wrap" aria-hidden="true">
+            <div class="progress" id="progressBar"></div>
+          </div>
+        </div>
+
+        <!-- REDEEM OPTIONS -->
+        <div style="margin-top:20px">
+          <h4>Redeem Coins</h4>
+          <p class="small">Choose a reward option below to redeem your coins.</p>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px">
+            <div class="redeem-card">
+              <div style="font-weight:800">PayPal</div>
+              <div class="small" style="margin-top:6px">Redeem 500 coins to request PayPal payout (simulated)</div>
+              <button class="btn" data-reward="paypal" style="margin-top:12px">Redeem 500</button>
+            </div>
+            <div class="redeem-card">
+              <div style="font-weight:800">M-Pesa</div>
+              <div class="small" style="margin-top:6px">Simulate M-Pesa withdrawal (Kenya) — demo only</div>
+              <button class="btn secondary" data-reward="mpesa" style="margin-top:12px">Redeem 300</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT SECTION -->
+      <aside class="right-col">
+        <div class="card">
+          <div class="title">Reward & Ad History</div>
+          <div id="history" class="history">
+            <div class="small">No activity yet.</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="title">Leaderboard (local)</div>
+          <div id="leaderboard" class="history"></div>
+        </div>
+      </aside>
+    </div>
+
+    <footer style="margin-top:18px;color:var(--muted);text-align:center">© 2025 Den Tech-Savvy</footer>
+  </div>
+
+  <script src="rewards.js"></script>
+</body>
+</html>

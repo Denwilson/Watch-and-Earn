@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Home — Watch & Earn</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <div class="nav">
+      <div class="brand">
+        <div class="logo">D</div>
+        <h1>Den Tech-Savvy</h1>
+      </div>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="rewards.html">Rewards</a>
+        <a href="profile.html">Profile</a>
+        <a id="logoutLink" href="#">Logout</a>
+      </div>
+    </div>
+
+    <div class="hero card">
+      <div>
+        <h2>Watch • Earn • Redeem</h2>
+        <p>Watch short animated ads and collect coins. Most ads are 30s (70% chance), sometimes 20s (20%) or 10s (10%). Confetti & coin bursts on reward. Local demo — no backend required.</p>
+        <div style="margin-top:12px">
+          <button id="goDashboard" class="btn">Enter Dashboard</button>
+          <button id="goRewards" class="btn secondary">View Rewards</button>
+        </div>
+      </div>
+      <div style="width:420px">
+        <div style="background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:16px;border-radius:12px">
+          <div style="font-weight:700;color:var(--accent-a)">How it works</div>
+          <ul style="color:var(--muted);margin-top:10px">
+            <li>Click Watch → ad runs (random duration)</li>
+            <li>When timer ends you earn coins</li>
+            <li>Coins are saved locally and visible across pages</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid" style="margin-top:18px">
+      <div class="card">
+        <h3 style="margin-top:0">Why Den Tech-Savvy Rewards?</h3>
+        <p class="small">Premium neon UX, gamified watching, and simulated payouts. Replace ad simulation with your ad network and add server-side validation to enable real payouts.</p>
+      </div>
+      <div class="card">
+        <h3 style="margin-top:0">Quick Stats</h3>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div class="small">Default watch reward: <strong style="color:var(--gold)">50 coins</strong></div>
+          <div class="small">Minimum withdraw (sim): <strong style="color:var(--gold)">100 coins</strong></div>
+          <div class="small">Animated rewards & leaderboard</div>
+        </div>
+      </div>
+    </div>
+
+    <footer style="margin-top:20px;color:var(--muted);text-align:center">© 2025 Den Tech-Savvy — Demo app</footer>
+  </div>
+
+  <script src="app.js"></script>
+  <script>
+    // require login
+    if(!requireLogin('login.html')){ /* redirect done in helper */ }
+
+    document.getElementById('goDashboard').addEventListener('click', ()=> location.href = 'dashboard.html');
+    document.getElementById('goRewards').addEventListener('click', ()=> location.href = 'rewards.html');
+    document.getElementById('logoutLink').addEventListener('click', (e)=>{
+      e.preventDefault(); if(confirm('Logout (clear local user)?')){ clearUser(); window.location.href='login.html'; }
+    });
+  </script>
+</body>
+</html>

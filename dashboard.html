@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Dashboard — Watch & Earn</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <div class="nav">
+      <div class="brand">
+        <div class="logo">D</div>
+        <h1>Den Tech-Savvy</h1>
+      </div>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="dashboard.html" class="active">Dashboard</a>
+        <a href="rewards.html">Rewards</a>
+        <a href="profile.html">Profile</a>
+        <a href="login.html">Logout</a>
+      </div>
+    </div>
+
+    <section class="hero">
+      <div class="hero-content">
+        <h1>🎬 Your Earning Dashboard</h1>
+        <p>Welcome back! Track your balance, watch ads, and upgrade to earn even faster.</p>
+        <button class="btn" onclick="location.href='rewards.html'">Start Watching Now</button>
+      </div>
+    </section>
+
+    <section class="packages">
+      <h2 class="section-title">Upgrade Your Plan</h2>
+      <p class="section-subtitle">Select a premium package to unlock higher-paying ads and exclusive bonuses!</p>
+
+      <div class="package-grid">
+        <!-- Gold Package -->
+        <div class="package-card gold">
+          <h3>💎 Gold Package</h3>
+          <p class="price">Ksh 4500</p>
+          <ul>
+            <li>High-paying ads</li>
+            <li>VIP watch priority</li>
+            <li>Exclusive rewards</li>
+            <li>Instant withdrawals</li>
+          </ul>
+          <button class="btn gold-btn">Subscribe Now</button>
+        </div>
+
+        <!-- Silver Package -->
+        <div class="package-card silver">
+          <h3>🥈 Silver Package</h3>
+          <p class="price">Ksh 2500</p>
+          <ul>
+            <li>Medium-paying ads</li>
+            <li>Standard rewards</li>
+            <li>Access to leaderboard</li>
+            <li>Weekly bonuses</li>
+          </ul>
+          <button class="btn silver-btn">Subscribe Now</button>
+        </div>
+
+        <!-- Copper Package -->
+        <div class="package-card copper">
+          <h3>🥉 Copper Package</h3>
+          <p class="price">Ksh 1500</p>
+          <ul>
+            <li>Basic ad access</li>
+            <li>Earn up to 20 coins/ad</li>
+            <li>Monthly leaderboard</li>
+            <li>Starter bonuses</li>
+          </ul>
+          <button class="btn copper-btn">Subscribe Now</button>
+        </div>
+      </div>
+    </section>
+
+    <footer style="margin-top:20px;color:var(--muted);text-align:center"">
+      <p>© 2025 Den Tech-Savvy — Watch & Earn Platform</p>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+  <script>
+    // Simulate package subscriptions
+    document.querySelectorAll('.btn').forEach(btn=>{
+      btn.addEventListener('click',()=>{
+        alert('Please note that in order to withdraw any amount, you have to choose one package.');
+      });
+    });
+  </script>
+</body>
+</html>
